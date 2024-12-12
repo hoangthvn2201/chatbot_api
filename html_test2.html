@@ -141,7 +141,7 @@
                 } else {
                     const queryTextElement = document.createElement('div');
                     queryTextElement.classList.add('query-result');
-                    queryTextElement.textContent = data.result;
+                    queryTextElement.textContent = typeof data.result === 'string' ? data.result : JSON.stringify(data.result);
                     queryResultElement.appendChild(queryTextElement);
                 }
 
