@@ -65,7 +65,8 @@ class ExecuteQuery:
                 sanitized_query = self.sanitize_query(query)
                 # Use pandas to read SQL and convert to dictionary
                 df = pd.read_sql_query(sanitized_query, self.db)
-                
+                if len(df.columns) == 1:
+                    return f"{df.columns[0]}:{df.iloc[0]}"
                 # Convert to list of dictionaries for JSON serialization
                 return df.to_dict('records')
             else:
@@ -151,7 +152,7 @@ def chat():
     # Prepare response
     if isinstance(query_result, list):
         # If query returns results, convert to readable string
-        response = "Query Results:\n" + "\n".join([str(record) for record in query_result])
+        response = "\n".join([str(record) for record in query_result])
     else:
         # If query fails or returns error
         response = query_result
